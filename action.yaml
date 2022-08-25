@@ -1,0 +1,22 @@
+name: 'Validate NPM Package Version'
+description: 'Ensure that the package version you want to publish is available'
+  validate-version:
+    runs-on: [self-hosted, dev-ue1]
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+      - name: Store the version number
+        run: echo "console.log('PKG_VERSION=' + require('./package.json').version);" | node >> $GITHUB_ENV
+      - name: Read the version number
+        run: echo The version number in package.json is ${{env.PKG_VERSION}}
+      - name: See if tag exists for this version number
+        run: echo VERSION_COUNT=`git tag -l v${{env.PKG_VERSION}} | wc -l | xargs` >> $GITHUB_ENV
+      - if: ${{env.VERSION_COUNT == '1'}}
+        run: echo "The git tag v${{env.PKG_VERSION}} already exists.  Did You forget to increment the version number in package.json?"; exit 1
+runs:
+  using: 'docker'
+  image: 'Containerfile'
