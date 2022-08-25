@@ -1,9 +1,6 @@
 name: 'Validate NPM Package Version'
 description: 'Ensure that the package version you want to publish is available'
 outputs:
-  result:
-    description: "Indicates whether the version check is considered success or failure"
-    value: ${{ steps.version-check.outputs.result }}
   version:
     description: "The version number found in the package.json"
     value: ${{ steps.version-check.outputs.version }}
@@ -13,9 +10,6 @@ runs:
     - uses: actions/checkout@v3
     - id: version-check
       run: ${{ github.action_path }}/entrypoint.sh
-      shell: bash
-    - if: ${{steps.version-check.outputs.result == 'failure'}}
-      run: exit 1
       shell: bash
     - if: ${{ failure() }}
       run: echo "The git tag v${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"
