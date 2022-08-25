@@ -18,7 +18,7 @@ runs:
         registry-url: https://npm.pkg.github.com
         scope: '@icanbwell'
     - id: version-check
-      run: entrypoint.sh
+      run: ${{ github.action_path }}/entrypoint.sh
       shell: sh
     - if: ${{steps.version-check.outputs.result == 'failure'}}
       run: echo "The git tag v${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"; exit 1
