@@ -11,15 +11,13 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v3
-    - run: apk update && apk add jq
-      shell: sh
     - id: version-check
       run: ${{ github.action_path }}/entrypoint.sh
-      shell: sh
+      shell: bash
     - if: ${{steps.version-check.outputs.result == 'failure'}}
       run: exit 1
-      shell: sh
+      shell: bash
     - if: ${{ failure() }}
       run: echo "The git tag v${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"
-      shell: sh
+      shell: bash
 
