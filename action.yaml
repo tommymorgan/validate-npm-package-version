@@ -11,16 +11,15 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v1
-      with:
-        always-auth: true
-        node-version: 16.x
-        registry-url: https://npm.pkg.github.com
-        scope: '@icanbwell'
+    - run: apk update && apk add jq
+      shell: sh
     - id: version-check
       run: ${{ github.action_path }}/entrypoint.sh
       shell: sh
     - if: ${{steps.version-check.outputs.result == 'failure'}}
-      run: echo "The git tag v${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"; exit 1
+      run: exit 1
+      shell: sh
+    - if: ${{ failure() }}
+      run: echo "The git tag v${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"
       shell: sh
 

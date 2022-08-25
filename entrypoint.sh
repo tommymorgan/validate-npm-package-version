@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 # Store the version number
-version=$(echo "console.log(require('./package.json').version);" | node)
+version=$(jq .version package.json | sed 's/"//g')
 
 # See if tag exists for this version number
 version_count=$(git tag -l v$version | wc -l | xargs)
