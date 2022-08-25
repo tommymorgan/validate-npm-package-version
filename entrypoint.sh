@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash
 
 # Store the version number
 version=$(jq .version package.json | sed 's/"//g')
