@@ -13,6 +13,7 @@ else
 fi
 
 echo "::set-output name=version::$version"
+echo "::set-output name=version_count::$version_count"
 echo "::set-output name=result::$result"
 
 if [[ "$result" == "failure" ]]; then
