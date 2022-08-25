@@ -5,7 +5,7 @@ outputs:
     description: "The version number found in the package.json"
     value: ${{ steps.version-check.outputs.version }}
   version_count:
-    description: "The number of versions found matching ${{ steps.version-check.outputs.version }}"
+    description: "The number of versions found matching the specified version"
     value: ${{ steps.version-check.outputs.version_count }}
 runs:
   using: 'composite'
