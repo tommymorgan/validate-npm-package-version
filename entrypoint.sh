@@ -6,7 +6,7 @@ version=$(jq .version package.json | sed 's/"//g')
 # See if tag exists for this version number
 version_count=$(git tag -l v$version | wc -l | xargs)
 
-if [ $version_count == '1' ]; then
+if [ "$version_count" == '1' ]; then
     result='failure'
 else
     result='success'
