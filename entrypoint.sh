@@ -7,6 +7,16 @@ version=$(jq .version package.json | sed 's/"//g')
 version_count=$(git tag -l $version | wc -l | xargs)
 
 if [[ "$version_count" > 0 ]]; then
+    result='failure'
+else
+    result='success'
+fi
+
+echo "::set-output name=version::$version"
+echo "::set-output name=version_count::$version_count"
+echo "::set-output name=result::$result"
+
+if [[ "$result" == "failure" ]]; then
     exit 1
 else
     exit 0
