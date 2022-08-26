@@ -1,16 +1,14 @@
-#!/bin/sh -l
+#!/bin/bash
 
 # Store the version number
-version=$(echo "console.log(require('./package.json').version);" | node)
+version=$(jq .version package.json | sed 's/"//g')
+echo "::set-output name=version::$version"
 
 # See if tag exists for this version number
-version_count=$(git tag -l v$version | wc -l | xargs)
+version_count=$(git tag -l $version | wc -l | xargs)
 
-if [ $version_count == '1' ]; then
-    result='failure'
+if [[ "$version_count" > 0 ]]; then
+    exit $version_count
 else
-    result='success'
+    exit 0
 fi
-
-echo "::set-output name=version::$version"
-echo "::set-output name=result::$result"
