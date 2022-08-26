@@ -1,9 +1,9 @@
 name: 'Validate NPM Package Version'
 description: 'Ensure that the package version you want to publish is available'
-outputs:
-  version:
-    description: "The version number found in the package.json"
-    value: ${{ steps.version-check.outputs.version }}
+# outputs:
+#   version:
+#     description: "The version number found in the package.json"
+#     value: ${{ steps.version-check.outputs.version }}
 runs:
   using: 'composite'
   steps:
