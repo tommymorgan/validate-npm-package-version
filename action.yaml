@@ -4,9 +4,6 @@ outputs:
   version:
     description: "The version number found in the package.json"
     value: ${{ steps.version-check.outputs.version }}
-  version_count:
-    description: "The number of versions found matching the specified version"
-    value: ${{ steps.version-check.outputs.version_count }}
 runs:
   using: 'composite'
   steps:
@@ -15,8 +12,6 @@ runs:
         fetch-depth: 0
     - id: version-check
       run: ${{ github.action_path }}/entrypoint.sh
-      shell: bash
-    - run: echo "Found ${{ steps.version-check.outputs.version_count }} instances of version ${{ steps.version-check.outputs.version }}"
       shell: bash
     - if: ${{ failure() }}
       run: echo "The git tag ${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"
