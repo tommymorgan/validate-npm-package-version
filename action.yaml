@@ -9,10 +9,12 @@ runs:
   steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        # "fetch-depth: 0" is critical so that we get all the tags for when we check for the existence of the tag for the current version
+        fetch-depth: 0 
     - id: version-check
       run: ${{ github.action_path }}/entrypoint.sh
       shell: bash
     - if: ${{ failure() }}
+      name: error-message
       run: echo "The git tag ${{ steps.version-check.outputs.version }} already exists.  Did You forget to increment the version number in package.json?"
       shell: bash
